@@ -13,7 +13,6 @@ export default function UserContextProvider({ children }) {
   const [accessToken, setAccessToken] = useState(null)
   const [code, setCode] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [time, setTime] = useState(10000)
   const [status, setStatus] = useState("")
   const history = createHistory()
 
@@ -65,16 +64,10 @@ export default function UserContextProvider({ children }) {
     }
   }, [accessToken])
 
-  useEffect(() => {
-    setTimeout(() => {
-      loading ? setTime(time + 500) : setTime(0)
-    }, time)
-  }, [loading])
-
   const handleError = () => {
     localStorage.removeItem("token")
     history.push("/login")
-    history.go()
+    history.forward()
   }
 
   const getUser = async token => {
@@ -168,7 +161,7 @@ export default function UserContextProvider({ children }) {
           !localStorage.getItem("token")
         ) {
           history.push("/login")
-          history.go(1)
+          history.forward()
         }
       } else {
         if (
@@ -176,7 +169,7 @@ export default function UserContextProvider({ children }) {
           window.location.search.includes("code")
         ) {
           history.push("/")
-          history.go(1)
+          history.forward()
         }
         addUser(user.me.username)
         sessionStorage.setItem("user", JSON.stringify(user))

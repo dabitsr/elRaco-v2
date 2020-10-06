@@ -4,6 +4,7 @@ import ThemeCard from "./ThemeCard"
 import Axios from "axios"
 import PageHero from "../PageHero/PageHero"
 import { firebaseContext } from "../../context/firebase/firebaseState"
+import { createBrowserHistory as createHistory } from "history"
 
 export default function Home() {
   const { user } = useContext(UserContext)
