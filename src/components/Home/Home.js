@@ -1,11 +1,20 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import { UserContext } from "../../context/UserContext"
 import ThemeCard from "./ThemeCard"
 import Axios from "axios"
 import PageHero from "../PageHero/PageHero"
+import { firebaseContext } from "../../context/firebase/firebaseState"
 
 export default function Home() {
   const { user } = useContext(UserContext)
+  const { fb } = useContext(firebaseContext)
+
+  useEffect(() => {
+    if (fb && user) {
+      console.log(user.me)
+      fb.addUser(user.me.username)
+    }
+  }, [fb, user])
 
   return (
     <PageHero>
