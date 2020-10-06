@@ -161,7 +161,8 @@ function UserContextProvider({ children }) {
           getUser(localStorage.getItem("token"))
         else if (
           window.location.pathname !== "/login" &&
-          !localStorage.getItem("token")
+          !localStorage.getItem("token") &&
+          !window.location.search.includes("code")
         ) {
           history.push("/login")
           window.location.reload()
