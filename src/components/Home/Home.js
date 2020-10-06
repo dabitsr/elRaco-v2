@@ -7,14 +7,6 @@ import { firebaseContext } from "../../context/firebase/firebaseState"
 
 export default function Home() {
   const { user } = useContext(UserContext)
-  const { fb } = useContext(firebaseContext)
-
-  useEffect(() => {
-    if (fb && user) {
-      console.log(user.me)
-      fb.addUser(user.me.username)
-    }
-  }, [fb, user])
 
   return (
     <PageHero>

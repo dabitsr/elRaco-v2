@@ -15,10 +15,10 @@ import FirebaseState from "./context/firebase/firebaseState"
 
 ReactDOM.render(
   <React.StrictMode>
-    <UIContextProvider>
+    <FirebaseState>
       <UserContextProvider>
-        <UserDataState>
-          <FirebaseState>
+        <UIContextProvider>
+          <UserDataState>
             <Router>
               <Layout>
                 <Route path="/" exact component={Home} />
@@ -28,10 +28,10 @@ ReactDOM.render(
                 <Route path="/login" component={Login} />
               </Layout>
             </Router>
-          </FirebaseState>
-        </UserDataState>
+          </UserDataState>
+        </UIContextProvider>
       </UserContextProvider>
-    </UIContextProvider>
+    </FirebaseState>
   </React.StrictMode>,
   document.getElementById("root")
 )

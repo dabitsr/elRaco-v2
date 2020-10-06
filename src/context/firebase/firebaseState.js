@@ -1,15 +1,58 @@
 import React, { createContext, useContext, useEffect, useState } from "react"
 import firebase from "firebase/app"
 import "firebase/firestore"
-import { UIContext } from "../UIContext"
-import { UserContext } from "../UserContext"
 
 export const firebaseContext = createContext({})
 
 export default function FirebaseState({ children }) {
   const [fb, setFb] = useState(null)
-  const { ui } = useContext(UIContext)
-  const { user } = useContext(UserContext)
+
+  const initFb = async () => {
+    const bd = firebase.firestore().collection("users")
+
+    setFb({
+      ...fb,
+      active: true,
+      getUsers: async () => {
+        bd.get()
+          .then(snapshot =>
+            snapshot.docs.map(doc =>
+              console.log(`${doc.id}: ${doc.data().name}`)
+            )
+          )
+          .catch(e => console.log(e))
+      },
+
+      addUser: async () => {
+        let ref = bd.doc(fb.user)
+        if (!ref.get()) ref.set({ date: new Date() })
+      },
+
+      setTheme: async theme => {
+        let ref = bd.doc(fb.user)
+        ref.update({ theme: theme ? theme : "dark" })
+      },
+
+      getTheme: async () => {
+        let ref = bd.doc(fb.user)
+        let theme = await ref.get().then(res => res.data().theme)
+        console.log(theme)
+        return theme.toString()
+      },
+
+      setSubjectColor: async subjectColor => {
+        let ref = bd.doc(fb.user)
+        ref.update({ subjectColor: subjectColor ? subjectColor : null })
+      },
+
+      getSubjectColor: async () => {
+        let ref = bd.doc(fb.user)
+        let subjectColor = await ref.get().then(res => res.data().subjectColor)
+        console.log(subjectColor)
+        return subjectColor
+      },
+    })
+  }
 
   useEffect(() => {
     var firebaseConfig = {
@@ -23,37 +66,20 @@ export default function FirebaseState({ children }) {
     }
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig)
-    const bd = firebase.firestore().collection("users")
-
-    setFb({
-      getUsers: async () => {
-        bd.get()
-          .then(snapshot =>
-            snapshot.docs.map(doc =>
-              console.log(`${doc.id}: ${doc.data().name}`)
-            )
-          )
-          .catch(e => console.log(e))
-      },
-
-      addUser: async user => {
-        let ref = bd.doc(user)
-        if (!ref.get()) ref.set({ date: new Date() })
-      },
-
-      addUi: async (user, ui) => {
-        let ref = bd.doc(user)
-        ref.set({ ...ref, theme: ui.theme ? ui.theme : "dark" })
-      },
-    })
   }, [])
 
+  const addUser = user => {
+    setFb({ user })
+  }
+
   useEffect(() => {
-    if (ui && fb && user && user.username) fb.addUi(user.username, ui)
-  }, [ui])
+    if (fb && fb.user && !fb.active) {
+      initFb()
+    }
+  }, [fb])
 
   return (
-    <firebaseContext.Provider value={{ fb }}>
+    <firebaseContext.Provider value={{ fb, addUser }}>
       {children}
     </firebaseContext.Provider>
   )

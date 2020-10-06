@@ -8,7 +8,7 @@ import { firebaseContext } from "./firebase/firebaseState"
 export const UserContext = createContext(UserContextModel)
 
 export default function UserContextProvider({ children }) {
-  const { getUsers } = useContext(firebaseContext)
+  const { addUser } = useContext(firebaseContext)
   const [user, setUser] = useState(null)
   const [accessToken, setAccessToken] = useState(null)
   const [code, setCode] = useState(null)
@@ -175,10 +175,10 @@ export default function UserContextProvider({ children }) {
           window.location.pathname.includes("login") ||
           window.location.search.includes("code")
         ) {
-          //if (!localStorage.getItem('token')) localStorage.setItem('token', accessToken)
           history.push("/")
           history.go(1)
         }
+        addUser(user.me.username)
         sessionStorage.setItem("user", JSON.stringify(user))
       }
     }
