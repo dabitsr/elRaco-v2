@@ -11,13 +11,13 @@ export default function Home() {
 
   return (
     <PageHero>
-      {user && user.me && (
+      {user && (
         <div className="columns">
           <div className="column is-one-fifth">
             <div className="columns is-centered">
               <div className="column">
                 <h1 className="title has-text-centered">
-                  Hi {user.me.nom}, welcome to elRaco!
+                  Hi {user.nom}, welcome to elRaco!
                 </h1>
               </div>
             </div>

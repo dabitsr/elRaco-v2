@@ -8,6 +8,8 @@ import {
   GET_SUBJECT_NOTICES_CORRECT,
 } from "../../types"
 import Axios from "axios"
+import { useContext } from "react"
+import { firebaseContext } from "../firebase/firebaseState"
 
 const UserDataState = props => {
   const initialState = {
@@ -18,12 +20,16 @@ const UserDataState = props => {
   }
 
   const [state, dispatch] = useReducer(userDataReducer, initialState)
+  const { fb } = useContext(firebaseContext)
 
   //=======================
   //||  Create Schedule  ||
   //=======================
-  const createScheduleAction = (user, colors) => {
-    if (user && user.schedule && user.schedule.results) {
+  const createScheduleAction = async (user, colors) => {
+    let s
+    if (fb && fb.active) s = await fb.getSchedule()
+    if (s) dispatch(createSchedule(s))
+    else if (user && user.schedule && user.schedule.results) {
       console.log(user.schedule)
       let newSchedule = {}
       let secondHour = {}
@@ -71,6 +77,7 @@ const UserDataState = props => {
         }
       })
       dispatch(createSchedule(newSchedule))
+      fb.setSchedule(newSchedule)
       console.log(newSchedule)
     }
   }

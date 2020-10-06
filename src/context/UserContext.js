@@ -12,7 +12,7 @@ import { withRouter, useHistory } from "react-router-dom"
 export const UserContext = createContext(UserContextModel)
 
 function UserContextProvider({ children }) {
-  const { addUser } = useContext(firebaseContext)
+  const { fb, addUser } = useContext(firebaseContext)
   const [user, setUser] = useState(null)
   const [accessToken, setAccessToken] = useState(null)
   const [code, setCode] = useState(null)
@@ -90,66 +90,82 @@ function UserContextProvider({ children }) {
         console.log(e)
         handleError()
       })
-
-    if (me) {
-      let photo = `https://api.fib.upc.edu/v2/jo/foto.jpg?access_token=${token}`
-      setStatus(`Getting ${me.nom} subjects...`)
-      let subjects = await Axios({
-        method: "GET",
-        url: me.assignatures,
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then(res => res.data)
-        .catch(e => {
-          console.log(e)
-          handleError()
-        })
-
-      setStatus(`Getting ${me.nom} schedule...`)
-      let schedule = await Axios({
-        method: "GET",
-        url: me.classes,
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then(res => res.data)
-        .catch(e => {
-          console.log(e)
-          handleError()
-        })
-
-      setStatus(`Getting ${me.nom} notifications...`)
-      let notifications = await Axios({
-        method: "GET",
-        url: me.avisos,
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then(res => res.data)
-        .catch(e => {
-          console.log(e)
-          handleError()
-        })
-
-      setUser({
-        me,
-        subjects,
-        schedule,
-        notifications,
-        photo,
-      })
-
-      setLoading(false)
-      setStatus("")
-    }
+    console.log(me)
+    addUser(me)
   }
+
+  const getData = async () => {
+    var token = accessToken.token
+    var schedule
+    if (fb) schedule = await fb.getSchedule()
+    let photo = `https://api.fib.upc.edu/v2/jo/foto.jpg?access_token=${token}`
+    console.log(photo)
+    setStatus(`Getting ${fb.name} subjects...`)
+    let subjects = await Axios({
+      method: "GET",
+      url: "https://api.fib.upc.edu/v2/jo/assignatures/",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(res => res.data)
+      .catch(e => {
+        console.log(e)
+        handleError()
+      })
+
+    if (!schedule) {
+      setStatus(`Getting ${fb.name} schedule...`)
+      schedule = await Axios({
+        method: "GET",
+        url: "https://api.fib.upc.edu/v2/jo/classes/",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then(res => res.data)
+        .catch(e => {
+          console.log(e)
+          handleError()
+        })
+    }
+
+    setStatus(`Getting ${fb.name} notifications...`)
+    let notifications = await Axios({
+      method: "GET",
+      url: "https://api.fib.upc.edu/v2/jo/avisos/",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(res => res.data)
+      .catch(e => {
+        console.log(e)
+        handleError()
+      })
+
+    setUser({
+      ...user,
+      username: fb.user,
+      nom: fb.name,
+      subjects,
+      schedule,
+      notifications,
+      photo,
+    })
+
+    setLoading(false)
+    setStatus("")
+  }
+
+  useEffect(() => {
+    if (fb && fb.user && fb.active && accessToken) {
+      getData()
+    }
+  }, [fb, accessToken])
 
   useEffect(() => {
     console.log(user)
@@ -159,27 +175,32 @@ function UserContextProvider({ children }) {
           setUser(JSON.parse(sessionStorage.getItem("user")))
         else if (localStorage.getItem("token"))
           getUser(localStorage.getItem("token"))
-        else if (
-          window.location.pathname !== "/login" &&
-          !localStorage.getItem("token") &&
-          !window.location.search.includes("code")
-        ) {
-          history.push("/login")
-          window.location.reload()
-        }
       } else {
-        if (
-          window.location.pathname.includes("login") ||
-          window.location.search.includes("code")
-        ) {
-          history.push("/")
-          window.location.replace("/")
-        }
-        addUser(user.me.username)
+        addUser({ username: user.username, name: user.nom })
         sessionStorage.setItem("user", JSON.stringify(user))
       }
     }
-  }, [user, window])
+  }, [user])
+
+  useEffect(() => {
+    if (!user) {
+      if (
+        window.location.pathname !== "/login" &&
+        !localStorage.getItem("token") &&
+        !window.location.search.includes("code")
+      ) {
+        history.push("/login")
+        window.location.reload()
+      }
+    } else {
+      if (
+        window.location.pathname.includes("login") ||
+        window.location.search.includes("code")
+      ) {
+        history.push("/")
+      }
+    }
+  }, [window])
 
   return (
     <UserContext.Provider value={{ user, setUser, status, loading }}>

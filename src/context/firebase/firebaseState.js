@@ -6,17 +6,19 @@ export const firebaseContext = createContext({})
 
 export default function FirebaseState({ children }) {
   const [fb, setFb] = useState(null)
+  const [db, setDb] = useState(null)
 
   const initFb = async () => {
     const bd = firebase.firestore().collection("users")
 
     // Añadimos el usuario si no lo estaba ya
-    let ref = bd.doc(fb.user)
-    let u = await ref.get()
-    if (!u.data())
-      await ref
+
+    let u = await fb.ref.get().then(res => res.data())
+    if (!u)
+      await fb.ref
         .set({ date: new Date(), theme: "dark" })
         .catch(e => console.log(e))
+    else await fb.ref.update({ lastLog: new Date() })
 
     //Creamos el objeto fb para usar firebase
     setFb({
@@ -32,33 +34,50 @@ export default function FirebaseState({ children }) {
           .catch(e => console.log(e))
       },
 
-      addUser: async () => {
-        let ref = bd.doc(fb.user)
-        if (!ref.get()) ref.set({ date: new Date() })
-      },
-
       setTheme: async theme => {
-        let ref = bd.doc(fb.user)
-        ref.update({ theme: theme ? theme : "dark" })
+        fb.ref
+          .update({ theme: theme ? theme : "dark" })
+          .catch(e => console.log(e))
       },
 
       getTheme: async () => {
-        let ref = bd.doc(fb.user)
-        let theme = await ref.get().then(res => res.data().theme)
-        console.log(theme)
+        let theme = await fb.ref
+          .get()
+          .then(res => res.data().theme)
+          .catch(e => console.log(e))
         return theme.toString()
       },
 
       setSubjectColor: async subjectColor => {
-        let ref = bd.doc(fb.user)
-        ref.update({ subjectColor: subjectColor ? subjectColor : null })
+        fb.ref
+          .update({ subjectColor: subjectColor ? subjectColor : null })
+          .catch(e => console.log(e))
       },
 
       getSubjectColor: async () => {
-        let ref = bd.doc(fb.user)
-        let subjectColor = await ref.get().then(res => res.data().subjectColor)
-        console.log(subjectColor)
+        let subjectColor = await fb.ref
+          .get()
+          .then(res => res.data().subjectColor)
+          .catch(e => console.log(e))
         return subjectColor
+      },
+
+      setSchedule: async schedule => {
+        fb.ref
+          .update({
+            schedule,
+          })
+          .then(res => res.data().schedule)
+          .catch(e => console.log(e))
+      },
+
+      getSchedule: async () => {
+        let schedule = await fb.ref
+          .get()
+          .then(res => res.data().schedule)
+          .catch(e => console.log(e))
+
+        return schedule
       },
     })
   }
@@ -75,10 +94,18 @@ export default function FirebaseState({ children }) {
     }
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig)
+
+    setDb(firebase.firestore().collection("users"))
   }, [])
 
   const addUser = async user => {
-    setFb({ user, ...fb })
+    if (!fb)
+      setFb({
+        user: user.username,
+        name: user.nom,
+        ref: firebase.firestore().collection("users").doc(user.username),
+        ...fb,
+      })
   }
 
   useEffect(() => {
