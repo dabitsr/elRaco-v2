@@ -99,13 +99,12 @@ export default function FirebaseState({ children }) {
   }, [])
 
   const addUser = async user => {
-    if (!fb)
-      setFb({
-        user: user.username,
-        name: user.nom,
-        ref: firebase.firestore().collection("users").doc(user.username),
-        ...fb,
-      })
+    setFb({
+      user: user.username,
+      name: user.nom,
+      ref: firebase.firestore().collection("users").doc(user.username),
+      ...fb,
+    })
   }
 
   useEffect(() => {

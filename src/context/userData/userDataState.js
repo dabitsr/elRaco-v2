@@ -77,7 +77,7 @@ const UserDataState = props => {
         }
       })
       dispatch(createSchedule(newSchedule))
-      fb.setSchedule(newSchedule)
+      if (fb && fb.active) fb.setSchedule(newSchedule)
       console.log(newSchedule)
     }
   }

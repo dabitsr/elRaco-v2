@@ -100,7 +100,7 @@ function UserContextProvider({ children }) {
     if (fb) schedule = await fb.getSchedule()
     let photo = `https://api.fib.upc.edu/v2/jo/foto.jpg?access_token=${token}`
     console.log(photo)
-    setStatus(`Getting ${fb.name} subjects...`)
+    setStatus(`Getting ${fb.user} subjects...`)
     let subjects = await Axios({
       method: "GET",
       url: "https://api.fib.upc.edu/v2/jo/assignatures/",
@@ -116,7 +116,7 @@ function UserContextProvider({ children }) {
       })
 
     if (!schedule) {
-      setStatus(`Getting ${fb.name} schedule...`)
+      setStatus(`Getting ${fb.user} schedule...`)
       schedule = await Axios({
         method: "GET",
         url: "https://api.fib.upc.edu/v2/jo/classes/",
@@ -132,7 +132,7 @@ function UserContextProvider({ children }) {
         })
     }
 
-    setStatus(`Getting ${fb.name} notifications...`)
+    setStatus(`Getting ${fb.user} notifications...`)
     let notifications = await Axios({
       method: "GET",
       url: "https://api.fib.upc.edu/v2/jo/avisos/",
@@ -175,32 +175,26 @@ function UserContextProvider({ children }) {
           setUser(JSON.parse(sessionStorage.getItem("user")))
         else if (localStorage.getItem("token"))
           getUser(localStorage.getItem("token"))
+        else if (
+          window.location.pathname !== "/login" &&
+          !localStorage.getItem("token") &&
+          !window.location.search.includes("code")
+        ) {
+          history.push("/login")
+          window.location.reload()
+        }
       } else {
+        if (
+          window.location.pathname.includes("login") ||
+          window.location.search.includes("code")
+        ) {
+          history.push("/")
+        }
         addUser({ username: user.username, name: user.nom })
         sessionStorage.setItem("user", JSON.stringify(user))
       }
     }
-  }, [user])
-
-  useEffect(() => {
-    if (!user) {
-      if (
-        window.location.pathname !== "/login" &&
-        !localStorage.getItem("token") &&
-        !window.location.search.includes("code")
-      ) {
-        history.push("/login")
-        window.location.reload()
-      }
-    } else {
-      if (
-        window.location.pathname.includes("login") ||
-        window.location.search.includes("code")
-      ) {
-        history.push("/")
-      }
-    }
-  }, [window])
+  }, [user, window])
 
   return (
     <UserContext.Provider value={{ user, setUser, status, loading }}>
