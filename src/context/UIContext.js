@@ -21,10 +21,12 @@ export default function UIContextProvider({ children }) {
   })
 
   const getUiFb = async () => {
+    let theme = await fb.getTheme()
     setUi({
       ...ui,
-      theme: await fb.getTheme(),
+      theme,
       subjectColor: await fb.getSubjectColor(),
+      checked: theme === "dark",
     })
   }
 
@@ -44,7 +46,7 @@ export default function UIContextProvider({ children }) {
     if (ui.subjectColor) {
       let subjectColor = ui.subjectColor
       console.log(subjectColor)
-      if (fb) fb.setSubjectColor(subjectColor)
+      if (fb.active) fb.setSubjectColor(subjectColor)
     }
     /*
     if (typeof window !== "undefined")

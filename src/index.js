@@ -13,6 +13,8 @@ import Login from "./components/Login/Login"
 import Layout from "./components/Layout/Layout"
 import FirebaseState from "./context/firebase/firebaseState"
 
+//Los contextes DEBEN tener este orden!!
+
 ReactDOM.render(
   <React.StrictMode>
     <FirebaseState>
@@ -21,11 +23,11 @@ ReactDOM.render(
           <UserDataState>
             <Router>
               <Layout>
+                <Route path="/login" component={Login} />
                 <Route path="/" exact component={Home} />
                 <Route path="/subjects" component={Subjects} />
                 <Route path="/schedule" component={Schedule} />
                 <Route path="/profile" component={Profile} />
-                <Route path="/login" component={Login} />
               </Layout>
             </Router>
           </UserDataState>

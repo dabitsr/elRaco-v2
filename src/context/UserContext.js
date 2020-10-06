@@ -4,10 +4,11 @@ import Axios from "axios"
 import window from "global"
 import UserContextModel from "../models/usercontext.model"
 import { firebaseContext } from "./firebase/firebaseState"
+import { withRouter, useHistory } from "react-router-dom"
 
 export const UserContext = createContext(UserContextModel)
 
-export default function UserContextProvider({ children }) {
+function UserContextProvider({ children }) {
   const { addUser } = useContext(firebaseContext)
   const [user, setUser] = useState(null)
   const [accessToken, setAccessToken] = useState(null)
@@ -183,3 +184,5 @@ export default function UserContextProvider({ children }) {
     </UserContext.Provider>
   )
 }
+
+export default UserContextProvider
