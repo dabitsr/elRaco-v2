@@ -31,9 +31,7 @@ export default function UIContextProvider({ children }) {
   useEffect(() => {
     console.log(fb)
 
-    if (fb && fb.active && user) {
-      getUiFb()
-    }
+    if (fb && fb.active && user) getUiFb()
   }, [fb, user])
 
   useEffect(() => {
