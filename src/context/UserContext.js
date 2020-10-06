@@ -1,5 +1,8 @@
 import React, { createContext, useState, useEffect, useContext } from "react"
-import { createBrowserHistory as createHistory } from "history"
+import {
+  createBrowserHistory as createHistory,
+  createHashHistory,
+} from "history"
 import Axios from "axios"
 import window from "global"
 import UserContextModel from "../models/usercontext.model"
@@ -66,9 +69,8 @@ function UserContextProvider({ children }) {
   }, [accessToken])
 
   const handleError = () => {
-    localStorage.removeItem("token")
     history.push("/login")
-    history.forward()
+    window.location.reload()
   }
 
   const getUser = async token => {
@@ -162,7 +164,7 @@ function UserContextProvider({ children }) {
           !localStorage.getItem("token")
         ) {
           history.push("/login")
-          history.forward()
+          window.location.reload()
         }
       } else {
         if (
@@ -170,7 +172,7 @@ function UserContextProvider({ children }) {
           window.location.search.includes("code")
         ) {
           history.push("/")
-          history.forward()
+          window.location.replace("/")
         }
         addUser(user.me.username)
         sessionStorage.setItem("user", JSON.stringify(user))
