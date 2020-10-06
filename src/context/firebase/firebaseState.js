@@ -10,6 +10,15 @@ export default function FirebaseState({ children }) {
   const initFb = async () => {
     const bd = firebase.firestore().collection("users")
 
+    // Añadimos el usuario si no lo estaba ya
+    let ref = bd.doc(fb.user)
+    let u = await ref.get()
+    if (!u.data())
+      await ref
+        .set({ date: new Date(), theme: "dark" })
+        .catch(e => console.log(e))
+
+    //Creamos el objeto fb para usar firebase
     setFb({
       ...fb,
       active: true,
@@ -68,14 +77,13 @@ export default function FirebaseState({ children }) {
     firebase.initializeApp(firebaseConfig)
   }, [])
 
-  const addUser = user => {
-    setFb({ user })
+  const addUser = async user => {
+    setFb({ user, ...fb })
   }
 
   useEffect(() => {
-    if (fb && fb.user && !fb.active) {
-      initFb()
-    }
+    console.log(fb)
+    if (fb && fb.user && !fb.active) initFb()
   }, [fb])
 
   return (
