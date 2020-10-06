@@ -5,8 +5,10 @@ import PageHero from "../../components/PageHero"
 import cuid from "cuid"
 import { UIContext } from "../../context/UIContext"
 import ScheduleCard from "./ScheduleCard"
+import { firebaseContext } from "../../context/firebase/firebaseState"
 
 export default function Schedule() {
+  const { fb } = useContext(firebaseContext)
   const days = [
     { label: "Hour", num: 0 },
     { label: "Monday", num: 1 },
@@ -71,6 +73,10 @@ export default function Schedule() {
   useEffect(() => {
     console.log(schedule)
   }, [schedule])
+
+  useEffect(() => {
+    if (fb) fb.getUsers()
+  }, [fb])
 
   return (
     <PageHero>

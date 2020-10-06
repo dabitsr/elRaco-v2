@@ -11,21 +11,24 @@ import UserContextProvider from "./context/UserContext"
 import UserDataState from "./context/userData/userDataState"
 import Login from "./components/Login/Login"
 import Layout from "./components/Layout/Layout"
+import FirebaseState from "./context/firebase/firebaseState"
 
 ReactDOM.render(
   <React.StrictMode>
     <UIContextProvider>
       <UserContextProvider>
         <UserDataState>
-          <Router>
-            <Layout>
-              <Route path="/" exact component={Home} />
-              <Route path="/subjects" component={Subjects} />
-              <Route path="/schedule" component={Schedule} />
-              <Route path="/profile" component={Profile} />
-              <Route path="/login" component={Login} />
-            </Layout>
-          </Router>
+          <FirebaseState>
+            <Router>
+              <Layout>
+                <Route path="/" exact component={Home} />
+                <Route path="/subjects" component={Subjects} />
+                <Route path="/schedule" component={Schedule} />
+                <Route path="/profile" component={Profile} />
+                <Route path="/login" component={Login} />
+              </Layout>
+            </Router>
+          </FirebaseState>
         </UserDataState>
       </UserContextProvider>
     </UIContextProvider>

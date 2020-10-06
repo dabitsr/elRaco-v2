@@ -5,20 +5,7 @@ import "firebase/firestore"
 export const firebaseContext = createContext({})
 
 export default function FirebaseState({ children }) {
-  const [db, setDB] = useState(null)
-  const [usersCol, setUsersCol] = useState(null)
-
-  const getUsers = async user => {
-    console.log("HEY")
-    firebase
-      .firestore()
-      .collection("users")
-      .get()
-      .then(snapshot =>
-        snapshot.docs.map(doc => console.log(`${doc.id}: ${doc.data().name}`))
-      )
-      .catch(e => console.log(e))
-  }
+  const [fb, setFb] = useState(null)
 
   useEffect(() => {
     var firebaseConfig = {
@@ -32,15 +19,23 @@ export default function FirebaseState({ children }) {
     }
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig)
-    setDB(firebase.firestore())
+    var bd = firebase.firestore().collection("users")
+
+    setFb({
+      getUsers: async () => {
+        bd.get()
+          .then(snapshot =>
+            snapshot.docs.map(doc =>
+              console.log(`${doc.id}: ${doc.data().name}`)
+            )
+          )
+          .catch(e => console.log(e))
+      },
+    })
   }, [])
 
-  useEffect(() => {
-    if (db) setUsersCol(db.collection("users"))
-  }, [db])
-
   return (
-    <firebaseContext.Provider value={{ getUsers }}>
+    <firebaseContext.Provider value={{ fb }}>
       {children}
     </firebaseContext.Provider>
   )
