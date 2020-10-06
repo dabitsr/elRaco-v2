@@ -1,0 +1,11 @@
+.notice {
+    border: 5px solid #ddd;
+    border-radius: 5px;
+    background-color: #eee;
+    transform: all .3s;
+}
+
+.notice:hover {
+    cursor: pointer;
+    box-shadow: 0px 1px 2px #bbb inset, 1px 2px 3px #bbb inset, 2px 3px 4px #bbb inset;
+}

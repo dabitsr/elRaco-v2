@@ -1,0 +1,95 @@
+@import "../../../node_modules/line-awesome/dist/line-awesome/css/line-awesome.min.css";
+
+.navbar-menu.isMobile {
+  display: block;
+  opacity: 0;
+
+  position: absolute; /* or float: left; width: 100%;*/
+  left: 0;
+  right: 0;
+
+  transform: translateY(-50%);
+  transition: all 0.4s ease-in-out;
+  pointer-events: none;
+}
+
+.navbar-menu.is-active.isMobile {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.subjectCardAnim-enter {
+  opacity: 0;
+  transform: scale(0.9);
+}
+.subjectCardAnim-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+.subjectCardAnim-exit {
+  opacity: 1;
+}
+.subjectCardAnim-exit-active {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.modal-spinner {
+  overflow: hidden;
+}
+
+.trDark {
+  background-color: #363636 !important;
+  color: white !important;
+}
+.trLight {
+  background-color: #f5f5f5 !important;
+  color: #444242 !important;
+}
+
+.colora40e4c {
+  background-color: #a40e4c !important;
+  color: white !important;
+}
+
+.color681d50 {
+  background-color: #681d50 !important;
+  color: white !important;
+}
+
+.color2c2c54 {
+  background-color: #2c2c54 !important;
+  color: white !important;
+}
+
+.color6c787d {
+  background-color: #6c787d !important;
+  color: white !important;
+}
+
+.coloracc3a6 {
+  background-color: #acc3a6 !important;
+  color: #444242 !important;
+}
+
+.colord1cdb0 {
+  background-color: #d1cdb0 !important;
+  color: #444242 !important;
+}
+
+.colorf5d6ba {
+  background-color: #f5d6ba !important;
+  color: #444242 !important;
+}
+
+.colorf49d6e {
+  background-color: #f49d6e !important;
+  color: #444242 !important;
+}
+
+/*@import "../../../node_modules/bulma/bulma.sass";
+
+@import "../../../node_modules/bulma/sass/elements/table.sass";*/

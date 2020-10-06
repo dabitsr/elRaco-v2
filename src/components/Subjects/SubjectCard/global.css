@@ -1,0 +1,22 @@
+.card-styles{
+    cursor:pointer;
+    transition: all .3s;
+}
+
+.card-styles:hover{
+    box-shadow: 0px 1px 2px #ddd, 1px 2px 3px #ddd, 2px 3px 4px #ccc;
+}
+
+@media (min-width:769px){
+    .card-styles{
+        min-height: 275px;
+    }
+}
+
+
+@media (min-width:941px){
+    .card-styles{
+        min-height: 228px;
+    }
+}
+
