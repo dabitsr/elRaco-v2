@@ -104,21 +104,22 @@ const UserDataState = props => {
 
   const createScheduleAction = async (user, colors) => {
     let userFirebaseSchedule
-
+    let newSchedule = {}
+    
     if (isFirebaseActiveAndNotUserSchedule(user))
       userFirebaseSchedule = await fb.getSchedule()
 
     if (userFirebaseSchedule) {
       dispatch(createSchedule(userFirebaseSchedule))
     } else if (userScheduleAndResultsExists(user)) {
-      let newSchedule = obtenerHorarioFormateado(user, colors)
 
+      newSchedule = obtenerHorarioFormateado(user, colors)
       dispatch(createSchedule(newSchedule))
 
       if (isFirebaseActive()) fb.setSchedule(newSchedule)
     } else if (userScheduleExists(user)) {
-      let newSchedule = actualizarColoresSchedule(user.schedule, colors)
 
+      newSchedule = actualizarColoresSchedule(user.schedule, colors)
       dispatch(createSchedule(newSchedule))
 
       if (isFirebaseActive()) fb.setSchedule(newSchedule)
