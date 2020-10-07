@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from "react"
 import { createBrowserHistory as createHistory } from "history"
 import cuid from "cuid"
-import { UserContext } from "../../context/UserContext"
+import authContext from "../../context/auth/authContext"
 import { UIContext } from "../../context/UIContext"
 
 export default function Login() {
-  const { user } = useContext(UserContext)
+  const { user } = useContext(authContext)
   const { ui } = useContext(UIContext)
   const [url, setUrl] = useState("")
   const history = createHistory()

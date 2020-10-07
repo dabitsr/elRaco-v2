@@ -2,13 +2,13 @@ import React, { createContext, useEffect, useState } from "react"
 import { useContext } from "react"
 import UIContextModel from "../models/uicontext.model"
 import { firebaseContext } from "./firebase/firebaseState"
-import { UserContext } from "./UserContext"
+import authContext from "./auth/authContext"
 
 export const UIContext = createContext(UIContextModel)
 
 export default function UIContextProvider({ children }) {
   const { fb } = useContext(firebaseContext)
-  const { user } = useContext(UserContext)
+  const { user } = useContext(authContext)
 
   const [ui, setUi] = useState({
     theme: "dark",
@@ -44,7 +44,7 @@ export default function UIContextProvider({ children }) {
     if (ui.subjectColor) {
       let subjectColor = ui.subjectColor
       console.log(subjectColor)
-      if (fb.active) fb.setSubjectColor(subjectColor)
+      if (fb && fb.active) fb.setSubjectColor(subjectColor)
     }
     /*
     if (typeof window !== "undefined")

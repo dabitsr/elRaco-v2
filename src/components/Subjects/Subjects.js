@@ -1,11 +1,11 @@
 import Axios from "axios"
 import React, { useContext, useState, useEffect } from "react"
-import { UserContext } from "../../context/UserContext"
+import authContext from "../../context/auth/authContext"
 import PageHero from "../PageHero/PageHero"
 import SubjectCard from "./SubjectCard/SubjectCard"
 import SelectedSubject from "./SelectedSubject/SelectedSubject"
 export default function Subjects() {
-  const { user } = useContext(UserContext)
+  const { user } = useContext(authContext)
   const [asignaturaSel, guardarAsignaturaSel] = useState(null)
 
   // useEffect(() => {

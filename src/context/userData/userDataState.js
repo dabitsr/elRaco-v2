@@ -13,7 +13,7 @@ import { firebaseContext } from "../firebase/firebaseState"
 
 const UserDataState = props => {
   const initialState = {
-    schedule: {},
+    schedule: null,
     subjectNotices: [],
     loading: false,
     error: false,
@@ -27,10 +27,10 @@ const UserDataState = props => {
   //=======================
   const createScheduleAction = async (user, colors) => {
     let s
-    if (fb && fb.active) s = await fb.getSchedule()
+
+    if (fb && fb.active && !user.schedule) s = await fb.getSchedule()
     if (s) dispatch(createSchedule(s))
     else if (user && user.schedule && user.schedule.results) {
-      console.log(user.schedule)
       let newSchedule = {}
       let secondHour = {}
       let data = {}
@@ -76,6 +76,18 @@ const UserDataState = props => {
           },
         }
       })
+      dispatch(createSchedule(newSchedule))
+      if (fb && fb.active) fb.setSchedule(newSchedule)
+      console.log(newSchedule)
+    } else if (user && user.schedule) {
+      let newSchedule = user.schedule
+      Object.keys(newSchedule).map(d => {
+        let day = newSchedule[d]
+        Object.keys(day).map(hour => {
+          day[hour].color = colors[day[hour].subject]
+        })
+      })
+
       dispatch(createSchedule(newSchedule))
       if (fb && fb.active) fb.setSchedule(newSchedule)
       console.log(newSchedule)

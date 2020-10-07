@@ -1,13 +1,9 @@
 import React, { useContext, useEffect } from "react"
-import { UserContext } from "../../context/UserContext"
-import ThemeCard from "./ThemeCard"
-import Axios from "axios"
+import authContext from "../../context/auth/authContext"
 import PageHero from "../PageHero/PageHero"
-import { firebaseContext } from "../../context/firebase/firebaseState"
-import { createBrowserHistory as createHistory } from "history"
 
 export default function Home() {
-  const { user } = useContext(UserContext)
+  const { user } = useContext(authContext)
 
   return (
     <PageHero>

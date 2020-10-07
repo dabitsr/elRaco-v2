@@ -12,13 +12,14 @@ import UserDataState from "./context/userData/userDataState"
 import Login from "./components/Login/Login"
 import Layout from "./components/Layout/Layout"
 import FirebaseState from "./context/firebase/firebaseState"
+import AuthState from "./context/auth/authState"
 
 //Los contextes DEBEN tener este orden!!
 
 ReactDOM.render(
   <React.StrictMode>
     <FirebaseState>
-      <UserContextProvider>
+      <AuthState>
         <UIContextProvider>
           <UserDataState>
             <Router>
@@ -32,7 +33,7 @@ ReactDOM.render(
             </Router>
           </UserDataState>
         </UIContextProvider>
-      </UserContextProvider>
+      </AuthState>
     </FirebaseState>
   </React.StrictMode>,
   document.getElementById("root")

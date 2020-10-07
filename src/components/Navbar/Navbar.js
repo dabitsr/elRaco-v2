@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
-import { UserContext } from "../../context/UserContext"
+import authContext from "../../context/auth/authContext"
 import { UIContext } from "../../context/UIContext"
 import NavbarItem from "./NavbarItem/"
 import Switch from "react-switch"
@@ -7,7 +7,7 @@ import darkMode from "../../img/darkMode.png"
 import lightMode from "../../img/lightMode.png"
 
 export default function Navbar() {
-  const { setUser } = useContext(UserContext)
+  const { setUser } = useContext(authContext)
   const { ui, setUi } = useContext(UIContext)
   const [toggleNav, setToggleNav] = useState(false)
   const [mobile, setMobile] = useState("")

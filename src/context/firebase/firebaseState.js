@@ -6,7 +6,6 @@ export const firebaseContext = createContext({})
 
 export default function FirebaseState({ children }) {
   const [fb, setFb] = useState(null)
-  const [db, setDb] = useState(null)
 
   const initFb = async () => {
     const bd = firebase.firestore().collection("users")
@@ -67,7 +66,6 @@ export default function FirebaseState({ children }) {
           .update({
             schedule,
           })
-          .then(res => res.data().schedule)
           .catch(e => console.log(e))
       },
 
@@ -75,7 +73,10 @@ export default function FirebaseState({ children }) {
         let schedule = await fb.ref
           .get()
           .then(res => res.data().schedule)
-          .catch(e => console.log(e))
+          .catch(e => {
+            console.log(e)
+            return false
+          })
 
         return schedule
       },
@@ -95,7 +96,8 @@ export default function FirebaseState({ children }) {
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig)
 
-    setDb(firebase.firestore().collection("users"))
+    /*if (sessionStorage.getItem("fb"))
+      setFb(JSON.parse(sessionStorage.getItem("fb")))*/
   }, [])
 
   const addUser = async user => {
@@ -109,7 +111,10 @@ export default function FirebaseState({ children }) {
 
   useEffect(() => {
     console.log(fb)
-    if (fb && fb.user && !fb.active) initFb()
+    if (fb && fb.user) {
+      if (!fb.active) initFb()
+      //else sessionStorage.setItem("fb", JSON.stringify(fb))
+    }
   }, [fb])
 
   return (

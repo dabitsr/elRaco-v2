@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
-import { UserContext } from "../../context/UserContext"
+import authContext from "../../context/auth/authContext"
 import userDataContext from "../../context/userData/userDataContext"
 import PageHero from "../../components/PageHero"
 import cuid from "cuid"
@@ -44,16 +44,11 @@ export default function Schedule() {
     "#f5d6ba",
     "#f49d6e",
   ]
-  const { user } = useContext(UserContext)
+  const { user } = useContext(authContext)
   const { ui, setUi } = useContext(UIContext)
   const { schedule, createScheduleAction } = useContext(userDataContext)
-  const [subjectColor, setSubjectColor] = useState({})
 
   useEffect(() => {
-    let colorsObj =
-      typeof window !== "undefined" && localStorage.getItem("subjectColor")
-        ? JSON.parse(localStorage.getItem("subjectColor"))
-        : "true"
     if (!ui.subjectColor && user && user.subjects) {
       let aux = {}
       user.subjects.results.map(s => {

@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from "react"
+/*import React, { createContext, useState, useEffect, useContext } from "react"
 import {
   createBrowserHistory as createHistory,
   createHashHistory,
@@ -84,6 +84,7 @@ function UserContextProvider({ children }) {
         Accept: "application/json",
         Authorization: `Bearer ${token}`,
       },
+      timeout: 1800,
     })
       .then(res => res.data)
       .catch(e => {
@@ -171,11 +172,12 @@ function UserContextProvider({ children }) {
     console.log(user)
     if (typeof window !== "undefined") {
       if (!user) {
-        if (sessionStorage.getItem("user"))
+        setAccessToken(null)
+        /*if (sessionStorage.getItem("user"))
           setUser(JSON.parse(sessionStorage.getItem("user")))
         else if (localStorage.getItem("token"))
           getUser(localStorage.getItem("token"))
-        else if (
+        else  if (
           window.location.pathname !== "/login" &&
           !localStorage.getItem("token") &&
           !window.location.search.includes("code")
@@ -204,3 +206,4 @@ function UserContextProvider({ children }) {
 }
 
 export default UserContextProvider
+*/
