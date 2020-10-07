@@ -8,22 +8,24 @@ export default function SelectedSubject({
   guardarAsignaturaSel,
 }) {
   return (
-    <div>
-      <div className="columns mt-2">
-        <div className="column is-4">
+    <>
+      <div className="columns is-centered mt-2">
+        <div className="column is-4 is-8-tablet is-7-desktop">
           <SubjectCard asignatura={asignatura} schedule={schedule} />
           <button
-        className="btn btn-success"
-        type="button"
-        onClick={() => guardarAsignaturaSel(null)}
-      >
-        Retroceder
-      </button>
+            className="btn btn-success"
+            type="button"
+            onClick={() => guardarAsignaturaSel(null)}
+          >
+            Retroceder
+          </button>
         </div>
       </div>
-
-      <Notices subjectId={asignatura.id}></Notices>
-
-    </div>
+      <div className="columns is-centered">
+        <div className="column ">
+          <Notices subjectId={asignatura.id}></Notices>
+        </div>
+      </div>
+    </>
   )
 }

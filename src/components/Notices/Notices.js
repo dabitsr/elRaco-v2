@@ -12,24 +12,20 @@ export default function Notices({ subjectId }) {
     getSubjectNoticesAction(subjectId)
   }, [])
 
-  console.log(subjectNotices)
   return (
     <>
       {!loading ? (
         subjectNotices.map(notice => <Notice key={notice.id} notice={notice} />)
       ) : (
-      
-            <div className="container has-text-centered modal-spinner">
-              <Loader
-                type="ThreeDots"
-                color="#00BFFF"
-                height={50}
-                width={50}
-                timeout={10000}
-              />
-              
-            </div>
-        
+        <div className="container has-text-centered modal-spinner">
+          <Loader
+            type="ThreeDots"
+            color="#00BFFF"
+            height={50}
+            width={50}
+            timeout={10000}
+          />
+        </div>
       )}
     </>
   )

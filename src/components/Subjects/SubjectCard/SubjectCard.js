@@ -9,7 +9,8 @@ import global from './global.css'
 
 export default function SubjectCard({ asignatura, schedule, guardarAsignaturaSel }) {
   // console.log(asignatura)
-  // console.log(schedule)
+  console.log(schedule)
+
 
   const handleClick = () =>{
     if(guardarAsignaturaSel)guardarAsignaturaSel(asignatura)

@@ -12,15 +12,15 @@ export default function Subjects() {
   //   getSubjectNoticesAction(asignaturaSel.id)
   // }, [asignaturaSel])
   return (
-    <>
+    <div className='has-background-dark'>
       {asignaturaSel ? (
-        <>
+        <div className='column'>
           <SelectedSubject
             asignatura={asignaturaSel}
             schedule={user.schedule}
             guardarAsignaturaSel={guardarAsignaturaSel}
           />
-        </>
+        </div>
       ) : (
         <PageHero>
           <div className="columns is-multiline">
@@ -40,6 +40,6 @@ export default function Subjects() {
           </div>
         </PageHero>
       )}
-    </>
+    </div>
   )
 }

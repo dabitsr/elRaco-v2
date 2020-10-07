@@ -197,7 +197,9 @@ export default function AuthState({ children }) {
   }, [])
 
   return (
-    <authContext.Provider value={{ user, setUser, status, loading, url }}>
+    <authContext.Provider
+      value={{ user, setUser, status, loading, url, accessToken }}
+    >
       {children}
     </authContext.Provider>
   )
