@@ -95,25 +95,22 @@ export default function FirebaseState({ children }) {
     }
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig)
-
-    /*if (sessionStorage.getItem("fb"))
-      setFb(JSON.parse(sessionStorage.getItem("fb")))*/
   }, [])
 
   const addUser = async user => {
-    setFb({
-      user: user.username,
-      name: user.nom,
-      ref: firebase.firestore().collection("users").doc(user.username),
-      ...fb,
-    })
+    if (!fb)
+      setFb({
+        user: user.username,
+        name: user.nom,
+        ref: firebase.firestore().collection("users").doc(user.username),
+        ...fb,
+      })
   }
 
   useEffect(() => {
     console.log(fb)
     if (fb && fb.user) {
       if (!fb.active) initFb()
-      //else sessionStorage.setItem("fb", JSON.stringify(fb))
     }
   }, [fb])
 

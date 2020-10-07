@@ -46,13 +46,6 @@ export default function UIContextProvider({ children }) {
       console.log(subjectColor)
       if (fb && fb.active) fb.setSubjectColor(subjectColor)
     }
-    /*
-    if (typeof window !== "undefined")
-      localStorage.setItem("subjectColor", JSON.stringify(ui.subjectColor))
-
-    console.log(localStorage.getItem("subjectColor"))
-    console.log(JSON.parse(localStorage.getItem("subjectColor")))
-    console.log(ui.subjectColor)*/
   }, [ui.subjectColor])
 
   return (
