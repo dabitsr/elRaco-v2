@@ -68,15 +68,21 @@ const UserDataState = props => {
         type: tipus,
       }
 
-      secondHour =
-        durada === 2
-          ? {
-              [`${inici[0]}${(parseInt(inici[1]) + 1).toString()}:00`]: {
-                ...data,
-                color: colors[codi_assig],
-              },
-            }
-          : null
+      if (durada === 2) {
+        let inici0 = inici[0],
+          inici1
+        if (inici[1] === "9") {
+          inici0 = (parseInt(inici[0]) + 1).toString()
+          inici1 = "0"
+        } else inici1 = (parseInt(inici[1]) + 1).toString()
+
+        secondHour = {
+          [`${inici0}${inici1}:00`]: {
+            ...data,
+            color: colors[codi_assig],
+          },
+        }
+      } else secondHour = null
 
       newSchedule = {
         ...newSchedule,
@@ -105,20 +111,18 @@ const UserDataState = props => {
   const createScheduleAction = async (user, colors) => {
     let userFirebaseSchedule
     let newSchedule = {}
-    
+
     if (isFirebaseActiveAndNotUserSchedule(user))
       userFirebaseSchedule = await fb.getSchedule()
 
     if (userFirebaseSchedule) {
       dispatch(createSchedule(userFirebaseSchedule))
     } else if (userScheduleAndResultsExists(user)) {
-
       newSchedule = obtenerHorarioFormateado(user, colors)
       dispatch(createSchedule(newSchedule))
 
       if (isFirebaseActive()) fb.setSchedule(newSchedule)
     } else if (userScheduleExists(user)) {
-
       newSchedule = actualizarColoresSchedule(user.schedule, colors)
       dispatch(createSchedule(newSchedule))
 
