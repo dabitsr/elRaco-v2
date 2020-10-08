@@ -17,24 +17,22 @@ import AuthState from "./context/auth/authState"
 //Los contextes DEBEN tener este orden!!
 
 ReactDOM.render(
-  <React.StrictMode>
-    <FirebaseState>
-      <AuthState>
-        <UIContextProvider>
-          <UserDataState>
-            <Router>
-              <Layout>
-                <Route path="/login" exact component={Login} />
-                <Route path="/" exact component={Home} />
-                <Route path="/subjects" component={Subjects} />
-                <Route path="/schedule" component={Schedule} />
-                <Route path="/profile" component={Profile} />
-              </Layout>
-            </Router>
-          </UserDataState>
-        </UIContextProvider>
-      </AuthState>
-    </FirebaseState>
-  </React.StrictMode>,
+  <FirebaseState>
+    <AuthState>
+      <UIContextProvider>
+        <UserDataState>
+          <Router>
+            <Layout>
+              <Route path="/login" exact component={Login} />
+              <Route path="/" exact component={Home} />
+              <Route path="/subjects" component={Subjects} />
+              <Route path="/schedule" component={Schedule} />
+              <Route path="/profile" component={Profile} />
+            </Layout>
+          </Router>
+        </UserDataState>
+      </UIContextProvider>
+    </AuthState>
+  </FirebaseState>,
   document.getElementById("root")
 )

@@ -65,44 +65,86 @@
   transition: all 0.3s;
 }
 
-.colora40e4c {
+$colora40e4c: "#a40e4c";
+$color681d50: "#681d50";
+$color2c2c54: "#2c2c54";
+$color6c787d: "#6c787d";
+$coloracc3a6: "#acc3a6";
+$colord1cdb0: "#d1cdb0";
+$colorf5d6ba: "#f5d6ba";
+$colorf49d6e: "#f49d6e";
+
+.colora40e4c,
+.background-a40e4c {
   background-color: #a40e4c !important;
   color: white !important;
 }
 
-.color681d50 {
+.color681d50,
+.background-681d50 {
   background-color: #681d50 !important;
   color: white !important;
 }
 
-.color2c2c54 {
+.color2c2c54,
+.background-2c2c54 {
   background-color: #2c2c54 !important;
   color: white !important;
 }
 
-.color6c787d {
+.color6c787d,
+.background-6c787d {
   background-color: #6c787d !important;
   color: white !important;
 }
 
-.coloracc3a6 {
+.coloracc3a6,
+.background-acc3a6 {
   background-color: #acc3a6 !important;
   color: #444242 !important;
 }
 
-.colord1cdb0 {
+.colord1cdb0,
+.background-d1cdb0 {
   background-color: #d1cdb0 !important;
   color: #444242 !important;
 }
 
-.colorf5d6ba {
+.colorf5d6ba,
+.background-f5d6ba {
   background-color: #f5d6ba !important;
   color: #444242 !important;
 }
 
-.colorf49d6e {
+.colorf49d6e,
+.background-f49d6e {
   background-color: #f49d6e !important;
   color: #444242 !important;
+}
+
+.modalAnim-enter {
+  opacity: 0 !important;
+  transform: scale(0.9) !important;
+}
+.modalAnim-enter-active {
+  opacity: 1 !important;
+  transform: translateX(0) !important;
+  transition: opacity 300ms, transform 300ms !important;
+}
+.modalAnim-exit {
+  opacity: 1 !important;
+}
+.modalAnim-exit-active {
+  opacity: 0 !important;
+  transform: scale(0.9) !important;
+  transition: opacity 300ms, transform 300ms !important;
+}
+
+.modalAnim {
+  width: 100px;
+  height: 100px;
+  background: #ff1c68;
+  transform-origin: 50% 50%;
 }
 
 @import "../../../node_modules/bulma/bulma.sass";
@@ -123,6 +165,10 @@ $widthUnit: "em"; // Add the unit here (rem|em|px|%)
   .table thead th.is-#{$i} {
     width: #{$width}#{$widthUnit} !important;
   }
+}
+
+.box.scheduleCard {
+  padding: 0 !important;
 }
 
 @import "../../../node_modules/bulma/sass/elements/table.sass";

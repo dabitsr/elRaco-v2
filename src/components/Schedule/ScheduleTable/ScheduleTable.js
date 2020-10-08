@@ -5,7 +5,7 @@ import ScheduleCard from "../ScheduleCard"
 import cuid from "cuid"
 import userDataContext from "../../../context/userData/userDataContext"
 
-export default function ScheduleTable() {
+export default function ScheduleTable({ setShowModal }) {
   const days = [
     { label: "Hour", num: 0 },
     { label: "Monday", num: 1 },
@@ -60,15 +60,16 @@ export default function ScheduleTable() {
               ui ? (ui.theme === "dark" ? "trDark" : "trLight") : "trDark"
             }`}
           >
-            <th className="has-text-centered">{hour}</th>
+            <th className="has-text-centered is-vcentered">{hour}</th>
             {days.map(
               day =>
                 day.label !== "Hour" && (
-                  <td key={cuid()}>
+                  <td key={cuid()} className="is-vcentered">
                     {schedule &&
                       schedule[day.num] &&
                       schedule[day.num][hour] && (
                         <ScheduleCard
+                          setShowModal={setShowModal}
                           type={schedule[day.num][hour].type}
                           room={schedule[day.num][hour].room}
                           subject={schedule[day.num][hour].subject}
