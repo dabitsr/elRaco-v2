@@ -5,6 +5,7 @@ import cuid from "cuid"
 import { UIContext } from "../../../context/UIContext"
 import { colors } from "../Schedule"
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
 
 const ColorsSelect = ({ subject, modal, setModal }) => {
   const { ui, setUi } = useContext(UIContext)
@@ -36,6 +37,7 @@ const ColorsSelect = ({ subject, modal, setModal }) => {
 export default function ScheduleModal({ showModal, setShowModal }) {
   const [modal, setModal] = useState(null)
   const [colorClass, setColorClass] = useState("")
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (showModal) setModal(showModal)
@@ -71,13 +73,14 @@ export default function ScheduleModal({ showModal, setShowModal }) {
                 <div className={`title ${colorClass}`}>{modal.subject}</div>
               </div>
               <div className="block">
-                <i className="las la-users"></i> Group: {modal.group}
+                <i className="las la-users"></i> {t("Group")}: {modal.group}
               </div>
               <div className="block">
-                <i className="las la-book"></i> Type: {modal.type}
+                <i className="las la-book"></i> {t("Type")}: {modal.type}
               </div>
               <div className="block">
-                <i className="las la-university"></i> Classroom: {modal.room}
+                <i className="las la-university"></i> {t("Classroom")}:{" "}
+                {modal.room}
               </div>
               <div className="block">
                 <ColorsSelect
@@ -93,7 +96,7 @@ export default function ScheduleModal({ showModal, setShowModal }) {
                   target="_blank"
                   href={`https://www.fib.upc.edu/ca/estudis/graus/grau-en-enginyeria-informatica/pla-destudis/assignatures/${modal.subject}`}
                 >
-                  More
+                  {t("More")}
                 </a>
               </div>
             </div>

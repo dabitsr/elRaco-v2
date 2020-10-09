@@ -15,7 +15,7 @@ export default function FirebaseState({ children }) {
     let u = await fb.ref.get().then(res => res.data())
     if (!u)
       await fb.ref
-        .set({ date: new Date(), theme: "dark" })
+        .set({ date: new Date(), theme: "dark", scheduleInfo: true })
         .catch(e => console.log(e))
     else await fb.ref.update({ lastLog: new Date() })
 
@@ -79,6 +79,38 @@ export default function FirebaseState({ children }) {
           })
 
         return schedule
+      },
+
+      setScheduleInfo: async scheduleInfo => {
+        fb.ref.update({ scheduleInfo }).catch(e => console.log(e))
+      },
+
+      getScheduleInfo: async () => {
+        let scheduleInfo = await fb.ref
+          .get()
+          .then(res => res.data().scheduleInfo)
+          .catch(e => {
+            console.log(e)
+            return false
+          })
+
+        return scheduleInfo
+      },
+
+      setLanguague: async languague => {
+        fb.ref.update({ languague }).catch(e => console.log(e))
+      },
+
+      getLanguague: async () => {
+        let languague = await fb.ref
+          .get()
+          .then(res => res.data().languague)
+          .catch(e => {
+            console.log(e)
+            return false
+          })
+
+        return languague
       },
     })
   }

@@ -6,6 +6,8 @@ import { UIContext } from "../../context/UIContext"
 import ScheduleTable from "./ScheduleTable/ScheduleTable"
 import { firebaseContext } from "../../context/firebase/firebaseState"
 import ScheduleModal from "./ScheduleModal/ScheduleModal"
+import ScheduleInfo from "./ScheduleInfo/ScheduleInfo"
+import { useTranslation } from "react-i18next"
 
 //TODO: poner colores por default en las asignaturas, esperar hasta que los colores esten bien puestos
 export const colors = [
@@ -20,11 +22,12 @@ export const colors = [
 ]
 
 export default function Schedule() {
-  const { user, setLoading } = useContext(authContext)
+  const { user, loading, setLoading } = useContext(authContext)
   const { ui, setUi } = useContext(UIContext)
   const { createScheduleAction } = useContext(userDataContext)
   const { fb } = useContext(firebaseContext)
   const [showModal, setShowModal] = useState(false)
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (!ui.subjectColor && user && user.subjects) {
@@ -54,37 +57,17 @@ export default function Schedule() {
   }, [fb])
 
   return (
-    <PageHero>
-      <h1 className="title">Schedule</h1>
-      <ScheduleTable setShowModal={setShowModal} />
+    <div>
+      {!loading && (
+        <PageHero>
+          <ScheduleInfo />
 
-      <div className="title">Subject colors</div>
-      {ui &&
-        ui.subjectColor &&
-        Object.keys(ui.subjectColor).map(key => (
-          <div
-            key={key}
-            className="columns section is-vcentered is-mobile is-multiline"
-          >
-            <div className="column is-size-4 has-text-centered">{key}</div>
-            {colors.map((color, i) => (
-              <div className="column has-text-centered" key={i}>
-                <div
-                  className="card button"
-                  style={{ backgroundColor: color }}
-                  onClick={() =>
-                    setUi({
-                      ...ui,
-                      subjectColor: { ...ui.subjectColor, [key]: color },
-                    })
-                  }
-                ></div>
-              </div>
-            ))}
-          </div>
-        ))}
+          <h1 className="title">{t("Schedule")}</h1>
+          <ScheduleTable setShowModal={setShowModal} />
 
-      <ScheduleModal showModal={showModal} setShowModal={setShowModal} />
-    </PageHero>
+          <ScheduleModal showModal={showModal} setShowModal={setShowModal} />
+        </PageHero>
+      )}
+    </div>
   )
 }

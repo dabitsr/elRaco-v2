@@ -18,15 +18,18 @@ export default function UIContextProvider({ children }) {
         ? localStorage.getItem("theme") === "dark"
         : true,
     subjectColor: null,
+    lng: "en",
   })
 
   const getUiFb = async () => {
     let theme = await fb.getTheme()
+    let si = await fb.getScheduleInfo()
     setUi({
       ...ui,
       theme,
       subjectColor: await fb.getSubjectColor(),
       checked: theme === "dark",
+      showScheduleInfo: si === undefined ? true : si,
     })
   }
 
@@ -47,6 +50,10 @@ export default function UIContextProvider({ children }) {
       if (fb && fb.active) fb.setSubjectColor(subjectColor)
     }
   }, [ui.subjectColor])
+
+  useEffect(() => {
+    if (fb) fb.setScheduleInfo(ui.showScheduleInfo)
+  }, [ui.showScheduleInfo])
 
   return (
     <UIContext.Provider value={{ ui, setUi }}>{children}</UIContext.Provider>

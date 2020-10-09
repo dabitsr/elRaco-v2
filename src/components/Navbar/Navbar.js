@@ -5,12 +5,14 @@ import NavbarItem from "./NavbarItem/"
 import Switch from "react-switch"
 import darkMode from "../../img/darkMode.png"
 import lightMode from "../../img/lightMode.png"
+import { useTranslation } from "react-i18next"
 
 export default function Navbar() {
   const { setUser } = useContext(authContext)
   const { ui, setUi } = useContext(UIContext)
   const [toggleNav, setToggleNav] = useState(false)
   const [mobile, setMobile] = useState("")
+  const { t } = useTranslation()
 
   useEffect(() => {
     window.addEventListener("resize", () =>
@@ -41,19 +43,25 @@ export default function Navbar() {
           }`}
         >
           <div className="navbar-start">
-            {mobile && <NavbarItem label="Home" icon="las la-home" to="/" />}
+            {mobile && (
+              <NavbarItem label={t("Home")} icon="las la-home" to="/" />
+            )}
             <NavbarItem
-              label="Schedule"
+              label={t("Schedule")}
               icon="las la-calendar"
               to="/schedule"
             />
-            <NavbarItem label="Subjects" icon="las la-book" to="/subjects" />
             <NavbarItem
-              label="Notifications"
+              label={t("Subjects")}
+              icon="las la-book"
+              to="/subjects"
+            />
+            <NavbarItem
+              label={t("Notifications")}
               icon="las la-bell"
               to="/notifications"
             />
-            <NavbarItem label="Profile" icon="las la-user" to="/profile" />
+            <NavbarItem label={t("Profile")} icon="las la-user" to="/profile" />
           </div>
           <div className="navbar-end">
             <label className="navbar-item">
@@ -70,7 +78,7 @@ export default function Navbar() {
             </label>
 
             <NavbarItem
-              label="Exit"
+              label={t("Exit")}
               icon="las la-sign-out-alt"
               to="/login"
               onClick={() => {

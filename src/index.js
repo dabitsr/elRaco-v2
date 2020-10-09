@@ -5,7 +5,7 @@ import "bulma"
 import Home from "./components/Home"
 import Subjects from "./components/Subjects"
 import Schedule from "./components/Schedule"
-import Profile from "./components/Profile"
+import Profile from "./components/Profile/Profile"
 import UIContextProvider from "./context/UIContext"
 import UserContextProvider from "./context/UserContext"
 import UserDataState from "./context/userData/userDataState"
@@ -13,6 +13,7 @@ import Login from "./components/Login/Login"
 import Layout from "./components/Layout/Layout"
 import FirebaseState from "./context/firebase/firebaseState"
 import AuthState from "./context/auth/authState"
+import "./utils/i18n/i18n"
 
 //Los contextes DEBEN tener este orden!!
 

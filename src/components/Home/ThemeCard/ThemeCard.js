@@ -1,5 +1,6 @@
 import React, { useContext } from "react"
 import { UIContext } from "../../../context/UIContext"
+import { useTranslation } from "react-i18next"
 
 export const ThemeCardType = ({ type }) => {
   const colors = [
@@ -14,8 +15,8 @@ export const ThemeCardType = ({ type }) => {
     { class: "light", color: "#f5f5f5" },
     { class: "white", color: "#fff" },
   ]
-
   const { ui, setUi } = useContext(UIContext)
+  const { t } = useTranslation()
 
   return (
     <div className="card-content">
@@ -38,7 +39,7 @@ export default function ThemeCard() {
   return (
     <div className="card">
       <header className="card-header">
-        <p className="card-header-title">Personalize theme</p>
+        <p className="card-header-title">{t("Personalize theme")}</p>
         <i className="card-header-icon las la-brush"></i>
       </header>
       <ThemeCardType type="Navbar" />

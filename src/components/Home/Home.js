@@ -1,9 +1,11 @@
 import React, { useContext, useEffect } from "react"
 import authContext from "../../context/auth/authContext"
 import PageHero from "../PageHero/PageHero"
+import { useTranslation } from "react-i18next"
 
 export default function Home() {
   const { user } = useContext(authContext)
+  const { t } = useTranslation()
 
   return (
     <PageHero>
@@ -13,7 +15,7 @@ export default function Home() {
             <div className="columns is-centered">
               <div className="column">
                 <h1 className="title has-text-centered">
-                  Hi {user.nom}, welcome to elRaco!
+                  {t("Hello")} {user.nom}, {t("Welcome")}!
                 </h1>
               </div>
             </div>

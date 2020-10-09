@@ -4,6 +4,7 @@ import { createBrowserHistory as createHistory } from "history"
 import Axios from "axios"
 import window from "global"
 import authContext from "./authContext"
+import { useTranslation } from "react-i18next"
 
 export default function AuthState({ children }) {
   const { fb, addUser } = useContext(firebaseContext)
@@ -13,6 +14,7 @@ export default function AuthState({ children }) {
   const [status, setStatus] = useState("")
   const [url, setUrl] = useState(null)
   const history = createHistory()
+  const { t } = useTranslation()
 
   useEffect(() => {
     let a = window.location.search.substring(1).split("&")
@@ -63,7 +65,7 @@ export default function AuthState({ children }) {
   const getUser = async token => {
     setLoading(true)
 
-    setStatus("Getting user info...")
+    setStatus(`${t("Getting")} ${t("user info")}...`)
     let me = await Axios({
       method: "GET",
       url: "https://api.fib.upc.edu/v2/jo/",
@@ -89,7 +91,7 @@ export default function AuthState({ children }) {
   }, [fb, accessToken])
 
   const getSubjects = async token => {
-    setStatus(`Getting ${fb.user} subjects...`)
+    setStatus(`${t("Getting")} ${t("subjects")}...`)
     let subjects = await Axios({
       method: "GET",
       url: "https://api.fib.upc.edu/v2/jo/assignatures/",
@@ -107,7 +109,7 @@ export default function AuthState({ children }) {
   }
 
   const getSchedule = async token => {
-    setStatus(`Getting ${fb.user} schedule...`)
+    setStatus(`${t("Getting")} ${t("schedule")}...`)
     let schedule = await Axios({
       method: "GET",
       url: "https://api.fib.upc.edu/v2/jo/classes/",
@@ -125,7 +127,7 @@ export default function AuthState({ children }) {
   }
 
   const getNotifications = async token => {
-    setStatus(`Getting ${fb.user} notifications...`)
+    setStatus(`${t("Getting")} ${t("notifications")}...`)
     let notifications = await Axios({
       method: "GET",
       url: "https://api.fib.upc.edu/v2/jo/avisos/",
