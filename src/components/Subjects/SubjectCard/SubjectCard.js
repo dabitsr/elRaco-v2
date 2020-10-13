@@ -11,9 +11,6 @@ export default function SubjectCard({
   schedule,
   guardarAsignaturaSel,
 }) {
-  // console.log(asignatura)
-  console.log(schedule)
-
   const handleClick = () => {
     if (guardarAsignaturaSel) guardarAsignaturaSel(asignatura)
   }

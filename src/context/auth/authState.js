@@ -22,7 +22,12 @@ export default function AuthState({ children }) {
     a.map(i =>
       i.substr(0, 4) === "code" ? (code = i.substr(5, i.length)) : null
     )
-    if (code) getToken(code)
+
+    if (typeof window !== "undefined" && sessionStorage.getItem("token"))
+      setAccessToken(JSON.parse(sessionStorage.getItem("token")))
+    else if (code) {
+      getToken(code)
+    }
   }, [])
 
   const getToken = async code => {
@@ -44,6 +49,9 @@ export default function AuthState({ children }) {
         refreshToken: res.data.refresh_token,
       }))
 
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("token", JSON.stringify(token))
+      }
       setAccessToken(token)
     } catch (e) {
       handleError()
@@ -57,6 +65,7 @@ export default function AuthState({ children }) {
   }
 
   useEffect(() => {
+    console.log(accessToken)
     if (accessToken) {
       getUser(accessToken.token)
     }
@@ -85,7 +94,7 @@ export default function AuthState({ children }) {
   }
 
   useEffect(() => {
-    if (fb && fb.active && accessToken) {
+    if (!user && fb && fb.active && accessToken) {
       getData()
     }
   }, [fb, accessToken])
@@ -128,6 +137,7 @@ export default function AuthState({ children }) {
 
   const getNotifications = async token => {
     setStatus(`${t("Getting")} ${t("notifications")}...`)
+    console.log("GETTING NOTS...")
     let notifications = await Axios({
       method: "GET",
       url: "https://api.fib.upc.edu/v2/jo/avisos/",
@@ -204,7 +214,16 @@ export default function AuthState({ children }) {
 
   return (
     <authContext.Provider
-      value={{ user, setUser, status, loading, setLoading, url, accessToken }}
+      value={{
+        user,
+        setUser,
+        status,
+        loading,
+        setLoading,
+        url,
+        accessToken,
+        getNotifications,
+      }}
     >
       {children}
     </authContext.Provider>

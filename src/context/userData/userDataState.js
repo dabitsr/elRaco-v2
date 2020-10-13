@@ -160,9 +160,12 @@ const UserDataState = props => {
 
     dispatch(getSubjectNotices(true))
     try {
-      notices = await solicitarAvisosUsuario(token)
+      notices = await solicitarAvisosUsuario()
       notices = notices.data.results.filter(
         notice => notice.codi_assig === subjectCode
+      )
+      notices.sort(
+        (a, b) => new Date(b.data_modificacio) - new Date(a.data_modificacio)
       )
       dispatch(getSubjectNoticesCorrect(notices))
 

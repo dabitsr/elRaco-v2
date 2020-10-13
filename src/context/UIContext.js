@@ -13,10 +13,7 @@ export default function UIContextProvider({ children }) {
   const [ui, setUi] = useState({
     theme: "dark",
     navbarActive: false,
-    checked:
-      typeof window !== "undefined" && localStorage.getItem("theme")
-        ? localStorage.getItem("theme") === "dark"
-        : true,
+    checked: true,
     subjectColor: null,
     lng: "en",
   })

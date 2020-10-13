@@ -97,20 +97,50 @@ export default function FirebaseState({ children }) {
         return scheduleInfo
       },
 
-      setLanguague: async languague => {
-        fb.ref.update({ languague }).catch(e => console.log(e))
+      setLanguage: async language => {
+        fb.ref.update({ language }).catch(e => console.log(e))
       },
 
-      getLanguague: async () => {
-        let languague = await fb.ref
+      getLanguage: async () => {
+        let language = await fb.ref
           .get()
-          .then(res => res.data().languague)
+          .then(res => res.data().language)
           .catch(e => {
             console.log(e)
             return false
           })
 
-        return languague
+        return language
+      },
+
+      setNotices: async (subject, notices) => {
+        fb.ref
+          .collection("notices")
+          .doc(subject)
+          .set({ notices })
+          .catch(e => console.log(e))
+      },
+
+      updateNotices: async (subject, notices) => {
+        fb.ref
+          .collection("notices")
+          .doc(subject)
+          .update({ notices })
+          .catch(e => console.log(e))
+      },
+
+      getNotices: async subject => {
+        let notices = await fb.ref
+          .collection("notices")
+          .doc(subject)
+          .get()
+          .then(res => res.data().notices)
+          .catch(e => {
+            console.log(e)
+            return false
+          })
+
+        return notices
       },
     })
   }
@@ -140,7 +170,6 @@ export default function FirebaseState({ children }) {
   }
 
   useEffect(() => {
-    console.log(fb)
     if (fb && fb.user) {
       if (!fb.active) initFb()
     }

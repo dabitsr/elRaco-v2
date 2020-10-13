@@ -1,5 +1,29 @@
 @import "../../../node_modules/line-awesome/dist/line-awesome/css/line-awesome.min.css";
 
+.page-hero {
+  scroll-behavior: smooth !important;
+}
+
+.arrowDown {
+  transition: all 0.5s;
+  transform: translateY(0);
+}
+
+.arrowDown:hover {
+  transition: all 0.5s;
+  transform: translateY(0.8rem);
+}
+
+.arrowUp {
+  transition: all 0.5s;
+  transform: translateY(0);
+}
+
+.arrowUp:hover {
+  transition: all 0.5s;
+  transform: translateY(-0.8rem);
+}
+
 .navbar-menu.isMobile {
   display: block;
   opacity: 0;

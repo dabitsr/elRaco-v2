@@ -29,6 +29,8 @@ const translationCAT = {
   Getting: "Obtenint",
   "user info": "informació de l'usuari",
   "Getting user info": "Obtenint l'informació de l'usuari",
+  "language changed!": "Idioma actualitzat!",
+  "Change language": "Cambiar idioma",
 }
 
 export default translationCAT

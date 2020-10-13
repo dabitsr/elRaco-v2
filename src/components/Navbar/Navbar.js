@@ -82,12 +82,10 @@ export default function Navbar() {
               icon="las la-sign-out-alt"
               to="/login"
               onClick={() => {
-                setUser(null)
                 if (typeof window !== "undefined") {
-                  localStorage.removeItem("token")
-                  sessionStorage.removeItem("user")
                   sessionStorage.clear()
                 }
+                setUser(null)
               }}
             />
           </div>

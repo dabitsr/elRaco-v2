@@ -8,7 +8,8 @@ export default function NavbarItem({ to, label, icon, onClick, className }) {
   return (
     <Link
       to={to}
-      className={`navbar-item ${className}`}
+      style={{ height: "100%" }}
+      className={`navbar-item ${className} is-vcentered`}
       onClick={() => {
         setUi({ ...ui, navbarActive: false })
         if (onClick) onClick()

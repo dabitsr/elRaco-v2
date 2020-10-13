@@ -12,6 +12,10 @@ export default function Notices({ subjectId }) {
     getSubjectNoticesAction(subjectId)
   }, [])
 
+  useEffect(() => {
+    if (subjectNotices) console.log(subjectNotices)
+  }, [subjectNotices])
+
   return (
     <>
       {!loading ? (

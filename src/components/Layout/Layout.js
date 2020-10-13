@@ -19,21 +19,20 @@ export default function Layout({ children }) {
     if (url) history.push(url)
   }, [url])
 
-  const handleLanguague = async () => {
+  const handlelanguage = async () => {
     if (fb && fb.active) {
-      let lang = await fb.getLanguague()
+      let lang = await fb.getLanguage()
 
       i18n.changeLanguage(lang)
     }
   }
 
   useEffect(() => {
-    if (fb) handleLanguague()
+    if (fb) handlelanguage()
   }, [fb])
 
   return (
     <div>
-      {user && <Navbar />}
       <div>{children}</div>
 
       {loading && (

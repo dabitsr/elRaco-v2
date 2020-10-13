@@ -59,10 +59,9 @@ export default function Schedule() {
   return (
     <div>
       {!loading && (
-        <PageHero>
+        <PageHero nav title={t("Schedule")}>
           <ScheduleInfo />
 
-          <h1 className="title">{t("Schedule")}</h1>
           <ScheduleTable setShowModal={setShowModal} />
 
           <ScheduleModal showModal={showModal} setShowModal={setShowModal} />

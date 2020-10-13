@@ -27,6 +27,8 @@ const translationES = {
   Getting: "Obteniendo",
   "user info": "información del usuario",
   "Getting user info": "Obteniendo la información del usuario",
+  "language changed!": "Idioma actualizado!",
+  "Change language": "Canviar idioma"
 }
 
 export default translationES
