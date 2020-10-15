@@ -1,5 +1,4 @@
-import React, { useContext } from "react"
-import { useState } from "react"
+import React, { useContext, useEffect } from "react"
 import { UIContext } from "../../context/UIContext"
 import Navbar from "../Navbar"
 import { Link, Element } from "react-scroll"
@@ -43,7 +42,11 @@ export const FooterButtons = ({ up, down }) => {
 }
 
 export default function PageHero({ children, title, foot, nav, color, name }) {
-  const { ui } = useContext(UIContext)
+  const { ui, setUi } = useContext(UIContext)
+
+  useEffect(() => {
+    setUi({ ...ui, navbarActive: false })
+  }, [])
 
   return (
     <Element

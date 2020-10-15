@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next"
 export default function Navbar() {
   const { setUser } = useContext(authContext)
   const { ui, setUi } = useContext(UIContext)
-  const [toggleNav, setToggleNav] = useState(false)
   const [mobile, setMobile] = useState("")
   const { t } = useTranslation()
 
@@ -24,7 +23,7 @@ export default function Navbar() {
   return (
     <nav className={`navbar has-shadow is-spaced is-${ui.theme}`}>
       <div className="container">
-        <div className="navbar-brand">
+        <div className="navbar-brand is-align-items-center">
           <NavbarItem label="elRaco" to="/" />
           <div
             className={`navbar-burger ${ui.navbarActive && "is-active"}`}
@@ -38,28 +37,31 @@ export default function Navbar() {
           </div>
         </div>
         <div
-          className={`navbar-menu ${mobile} has-text-centered ${
-            ui.navbarActive && "is-active"
-          }`}
+          className={`navbar-menu has-text-centered ${
+            ui.navbarActive ? "is-active" : "not-active"
+          } ${mobile}`}
         >
           <div className="navbar-start">
-            {mobile && (
-              <NavbarItem label={t("Home")} icon="las la-home" to="/" />
-            )}
+            <NavbarItem
+              label={t("Home")}
+              icon="las la-home"
+              to="/"
+              className="is-hidden-desktop"
+            />
             <NavbarItem
               label={t("Schedule")}
               icon="las la-calendar"
               to="/schedule"
             />
             <NavbarItem
-              label={t("Subjects")}
-              icon="las la-book"
-              to="/subjects"
-            />
-            <NavbarItem
               label={t("Notifications")}
               icon="las la-bell"
               to="/notifications"
+            />
+            <NavbarItem
+              label={t("Subjects")}
+              icon="las la-book"
+              to="/subjects"
             />
             <NavbarItem label={t("Profile")} icon="las la-user" to="/profile" />
           </div>
@@ -68,8 +70,8 @@ export default function Navbar() {
               <Switch
                 onChange={() => setUi({ ...ui, checked: !ui.checked })}
                 checked={ui.checked}
-                checkedIcon={<img src={darkMode} />}
-                uncheckedIcon={<img src={lightMode} />}
+                checkedIcon={<img alt="darkTheme" src={darkMode} />}
+                uncheckedIcon={<img alt="lightTheme" src={lightMode} />}
                 offColor="#6b6b6b"
                 onColor="#e5e5e5"
                 offHandleColor="#fbc600"

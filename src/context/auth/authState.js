@@ -1,6 +1,5 @@
-import React, { createContext, useContext, useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { firebaseContext } from "../firebase/firebaseState"
-import { createBrowserHistory as createHistory } from "history"
 import Axios from "axios"
 import window from "global"
 import authContext from "./authContext"
@@ -13,7 +12,6 @@ export default function AuthState({ children }) {
   const [loading, setLoading] = useState(false)
   const [status, setStatus] = useState("")
   const [url, setUrl] = useState(null)
-  const history = createHistory()
   const { t } = useTranslation()
 
   useEffect(() => {
@@ -61,6 +59,8 @@ export default function AuthState({ children }) {
 
   const handleError = () => {
     alert("Error getting data! Redirecting to login...")
+    setUser(null)
+    if (typeof window !== "undefined") sessionStorage.clear()
     setUrl("/login")
   }
 
@@ -82,7 +82,6 @@ export default function AuthState({ children }) {
         Accept: "application/json",
         Authorization: `Bearer ${token}`,
       },
-      timeout: 1800,
     })
       .then(res => res.data)
       .catch(e => {

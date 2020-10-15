@@ -1,4 +1,5 @@
 @import "../../../node_modules/line-awesome/dist/line-awesome/css/line-awesome.min.css";
+@import "~video-react/styles/scss/video-react";
 
 .page-hero {
   scroll-behavior: smooth !important;
@@ -24,22 +25,25 @@
   transform: translateY(-0.8rem);
 }
 
-.navbar-menu.isMobile {
+.navbar-menu.not-active.isMobile {
   display: block;
   opacity: 0;
-
-  position: absolute; /* or float: left; width: 100%;*/
+  position: absolute;
   left: 0;
   right: 0;
-
   transform: translateY(-50%);
-  transition: all 0.4s ease-in-out;
   pointer-events: none;
+  transition: all 0.4s ease-in-out;
 }
 
 .navbar-menu.is-active.isMobile {
   opacity: 1;
-  transform: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: block;
+  transform: translateY(0) !important;
+  transition: all 0.4s ease-in-out;
   pointer-events: auto;
 }
 
@@ -171,8 +175,6 @@ $colorf49d6e: "#f49d6e";
   transform-origin: 50% 50%;
 }
 
-@import "../../../node_modules/bulma/bulma.sass";
-
 $widthAmounts: (
   1,
   2.5,
@@ -194,5 +196,9 @@ $widthUnit: "em"; // Add the unit here (rem|em|px|%)
 .box.scheduleCard {
   padding: 0 !important;
 }
+//$text-strong: inherit !important;
+$strong-color: inherit !important;
+$link-hover: hsl(217, 82%, 74%);
+/*$button-color: hsl(0, 0%, 21%);*/
 
-@import "../../../node_modules/bulma/sass/elements/table.sass";
+@import "../../../node_modules/bulma/bulma.sass";

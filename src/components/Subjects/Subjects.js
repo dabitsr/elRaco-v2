@@ -1,5 +1,4 @@
-import Axios from "axios"
-import React, { useContext, useState, useEffect } from "react"
+import React, { useContext, useState } from "react"
 import authContext from "../../context/auth/authContext"
 import PageHero from "../PageHero/PageHero"
 import SubjectCard from "./SubjectCard/SubjectCard"

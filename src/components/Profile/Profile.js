@@ -34,13 +34,16 @@ export default function Profile() {
       >
         <div className="title">{t("Change language")}</div>
         <div className="columns">
-          <div className="button" onClick={() => changeLanguage("es")}>
+          <div className="button is-light" onClick={() => changeLanguage("es")}>
             Español
           </div>
-          <div className="button" onClick={() => changeLanguage("cat")}>
+          <div
+            className="button is-light"
+            onClick={() => changeLanguage("cat")}
+          >
             Català
           </div>
-          <div className="button" onClick={() => changeLanguage("en")}>
+          <div className="button is-light" onClick={() => changeLanguage("en")}>
             English
           </div>
         </div>

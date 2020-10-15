@@ -8,12 +8,12 @@ const translationES = {
   subjects: "asignaturas",
   Schedule: "Horario",
   schedule: "horario",
-  Notifications: "Notificaciones",
-  notifications: "notificaciones",
+  Notifications: "Avisos",
+  notifications: "avisos",
   Profile: "Perfil",
   Exit: "Salir",
   "Welcome schedule":
-    "Bienvenido al horario! Clica en una asignatura para obtener más información!",
+    "Bienvenido al horario! Selecciona una asignatura para obtener más información!",
   Group: "Grupo",
   Type: "Tipo",
   Classroom: "Aula",
@@ -28,7 +28,9 @@ const translationES = {
   "user info": "información del usuario",
   "Getting user info": "Obteniendo la información del usuario",
   "language changed!": "Idioma actualizado!",
-  "Change language": "Canviar idioma"
+  "Change language": "Canviar idioma",
+  Update: "Actualizar",
+  "Last notifications": "Últimos avisos",
 }
 
 export default translationES

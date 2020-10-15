@@ -11,7 +11,7 @@ export default function NavbarItem({ to, label, icon, onClick, className }) {
       style={{ height: "100%" }}
       className={`navbar-item ${className} is-vcentered`}
       onClick={() => {
-        setUi({ ...ui, navbarActive: false })
+        // setUi({ ...ui, navbarActive: false })
         if (onClick) onClick()
       }}
     >

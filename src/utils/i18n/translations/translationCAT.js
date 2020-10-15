@@ -1,5 +1,3 @@
-import translationES from "./translationES"
-
 const translationCAT = {
   Hello: "Hola",
   Welcome: "Benvongut a elRacó",
@@ -10,12 +8,12 @@ const translationCAT = {
   subjects: "assignatures",
   Schedule: "Horari",
   schedule: "horari",
-  Notifications: "Notificacions",
-  notifications: "notificacions",
+  Notifications: "Avisos",
+  notifications: "avisos",
   Profile: "Perfil",
   Exit: "Sortir",
   "Welcome schedule":
-    "Benvingut a l'horari! Fes clic a una asignatura per obtenir més informació!",
+    "Benvingut a l'horari! Selecciona una assignatura per obtenir més informació!",
   Group: "Grup",
   Type: "Tipus",
   Classroom: "Aula",
@@ -31,6 +29,8 @@ const translationCAT = {
   "Getting user info": "Obtenint l'informació de l'usuari",
   "language changed!": "Idioma actualitzat!",
   "Change language": "Cambiar idioma",
+  Update: "Actualitzar",
+  "Last notifications": "Últims avisos",
 }
 
 export default translationCAT

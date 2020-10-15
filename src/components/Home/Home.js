@@ -1,49 +1,58 @@
-import React, {
-  forwardRef,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react"
+import React, { useContext, useEffect, useState } from "react"
 import authContext from "../../context/auth/authContext"
 import PageHero, { FooterButtons } from "../PageHero/PageHero"
 import { useTranslation } from "react-i18next"
+import LastNotifications from "./LastNotifications/LastNotifications"
 import { UIContext } from "../../context/UIContext"
+import ReactPlayer from "react-player/youtube"
+import { Player } from "video-react"
+import BigPlayButton from "video-react/lib/components/BigPlayButton"
+import ControlBar from "video-react/lib/components/control-bar/ControlBar"
+var parse = require("html-react-parser")
 
 export default function Home() {
-  const { user, accessToken, getNotifications } = useContext(authContext)
-  const { t } = useTranslation()
-  const [previewNotices, setPreviewNotices] = useState(null)
+  const { user, accessToken } = useContext(authContext)
   const { ui } = useContext(UIContext)
-  const [loadingButton, setLoadingButton] = useState(false)
-
-  const getPreviewNotices = async notifications => {
-    let previewArray = notifications.slice(0, 20)
-
-    console.log(previewArray)
-
-    setPreviewNotices(previewArray)
-    setLoadingButton(false)
-  }
-
-  const updatePreviewNotices = async () => {
-    let newNotis = await getNotifications(accessToken.token)
-    getPreviewNotices(newNotis.results)
-  }
+  const { t } = useTranslation()
+  const [showNotification, setShowNotification] = useState(null)
+  const [textColor, setTextColor] = useState("")
 
   useEffect(() => {
-    console.log("I ENTER")
-    if (user && user.notifications)
-      getPreviewNotices(user.notifications.results)
-  }, [user])
+    console.log(showNotification)
+  }, [showNotification])
 
   useEffect(() => {
-    console.log(previewNotices)
-    if (previewNotices) setLoadingButton(false)
-  }, [previewNotices])
+    if (ui.theme) setTextColor(ui.theme === "dark" ? "light" : "dark")
+  }, [ui.theme])
+
+  const getIcon = fileExtension => {
+    console.log(fileExtension)
+
+    switch (fileExtension) {
+      case "mp4":
+      case "avi":
+      case "mov":
+      case "flv":
+        return <i className="las la-file-video"></i>
+
+      case "pdf":
+        return <i className="las la-file-pdf"></i>
+      case "doc":
+      case "docx":
+      case "txt":
+        return <i className="las la-file-alt"></i>
+
+      default:
+        return <i className="las la-file"></i>
+    }
+  }
 
   return (
-    <div style={{ scrollBehavior: "smooth" }}>
+    <div
+      style={{
+        scrollBehavior: "smooth",
+      }}
+    >
       {user && (
         <div>
           <PageHero
@@ -53,7 +62,7 @@ export default function Home() {
             nav
           >
             <div className="columns">
-              <div className="column is-one-fifth">
+              <div className="column is-one-fifth is-hidden-mobile is-vcentered">
                 <h1 className="title has-text-centered is-size-4-mobile">
                   {t("Hello")} {user.nom}, {t("Welcome")}!
                 </h1>
@@ -66,58 +75,7 @@ export default function Home() {
                   />
                 </figure>
               </div>
-              <div className="column">
-                <div
-                  className="columns is-multiline is-mobile section"
-                  style={{
-                    overflowY: "scroll",
-                    maxHeight: window.innerHeight * 0.4,
-                  }}
-                >
-                  <div className="column is-12 has-text-centered">
-                    <div
-                      className={`button box is-rounded is-${ui.theme} ${
-                        loadingButton && "is-loading"
-                      }`}
-                      onClick={() => {
-                        updatePreviewNotices()
-                        setLoadingButton(true)
-                      }}
-                    >
-                      <i className="las la-sync"></i>
-                    </div>
-                  </div>
-                  {previewNotices &&
-                    previewNotices.map(notice => {
-                      let day = notice.data_modificacio
-                        .toString()
-                        .substring(8, 10)
-                      let month = notice.data_modificacio
-                        .toString()
-                        .substring(5, 7)
-
-                      return (
-                        <div className="column is-12">
-                          <div
-                            className={`box has-text-${
-                              ui.theme === "dark" ? "white" : "black"
-                            } has-background-${ui.theme}`}
-                          >
-                            <div className="is-flex is-justify-content-space-between">
-                              <span className="has-text-weight-bold">
-                                {notice.codi_assig}
-                              </span>
-                              <span className="has-text-weight-bold">
-                                {day}/{month}
-                              </span>
-                            </div>
-                            <p>{notice.titol}</p>
-                          </div>
-                        </div>
-                      )
-                    })}
-                </div>
-              </div>
+              <LastNotifications setShowNotification={setShowNotification} />
             </div>
           </PageHero>
 
@@ -145,6 +103,87 @@ export default function Home() {
             color="warning"
             title={t("About")}
           ></PageHero>
+
+          {showNotification && (
+            <div className={`modal ${showNotification && "is-active"}`}>
+              <div
+                className="modal-background"
+                onClick={() => setShowNotification(null)}
+              ></div>
+              <div class="modal-card is-clipped">
+                <header
+                  class={`modal-card-head is-vcentered has-background-${ui.theme}`}
+                >
+                  <p
+                    class={`modal-card-title has-text-centered has-text-${textColor}`}
+                  >
+                    {showNotification.titol} ({showNotification.codi_assig})
+                  </p>
+                  <button
+                    class="delete"
+                    aria-label="close"
+                    onClick={() => setShowNotification(null)}
+                  ></button>
+                </header>
+                <section
+                  class={`modal-card-body has-background-${ui.theme} has-text-${textColor}`}
+                >
+                  <div className={`block has-text-${textColor}`}>
+                    {parse(showNotification.text)}
+                  </div>
+                  <div className="columns is-multiline is-mobile">
+                    {showNotification.adjunts.map((file, i) => {
+                      let icon = getIcon(
+                        file.nom.substring(file.nom.length - 3)
+                      )
+
+                      return (
+                        <div className="column has-text-centered">
+                          <a
+                            key={i}
+                            className={`button is-${ui.theme}`}
+                            href={file.url}
+                            target="_blank"
+                          >
+                            <span className="icon">{icon}</span>
+                            <span>{file.nom}</span>
+                          </a>
+                        </div>
+                      )
+
+                      return (
+                        <div key={i} className="block has-text-centered">
+                          <Player
+                            src={`${file.url}?access_token=${accessToken.token}`}
+                          >
+                            <BigPlayButton position="center" />
+                            <ControlBar autoHide />
+                          </Player>
+
+                          <video
+                            src={`${file.url}?access_token=${accessToken.token}`}
+                            preload="auto"
+                            width="100%"
+                            height="100%"
+                            onLoadedData={() => alert("LOADED VIDOE")}
+                          ></video>
+
+                          <a
+                            className={`button is-${ui.theme}`}
+                            href={file.url}
+                            target="_blank"
+                          >
+                            <span className="icon">{icon}</span>
+                            <span>{file.nom}</span>
+                          </a>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </section>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

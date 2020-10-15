@@ -14,5 +14,7 @@ export default function numToDay(n) {
       return "Saturday"
     case 7:
       return "Sunday"
+    default:
+      return null
   }
 }

@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import numToDay from "../../../utils/numToDay"
-import Axios from "axios"
-import global from "./global.css"
 
 // s -> asignatura
 // schedule -> conjunto asignaturas que cursa el alumno / calendario semanal
@@ -31,6 +29,7 @@ export default function SubjectCard({
                   {(parseInt(d.inici) + d.durada).toString()}:{m}
                 </p>
               )
+            return null
           })}
       </div>
     </div>
