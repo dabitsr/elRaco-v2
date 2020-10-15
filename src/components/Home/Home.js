@@ -48,11 +48,7 @@ export default function Home() {
   }
 
   return (
-    <div
-      style={{
-        scrollBehavior: "smooth",
-      }}
-    >
+    <div style={{ scrollBehavior: "smooth" }}>
       {user && (
         <div>
           <PageHero
@@ -110,24 +106,20 @@ export default function Home() {
                 className="modal-background"
                 onClick={() => setShowNotification(null)}
               ></div>
-              <div class="modal-card is-clipped">
-                <header
-                  class={`modal-card-head is-vcentered has-background-${ui.theme}`}
+              <div className="modal-content">
+                <div
+                  className={` box has-background-${ui.theme} has-text-${textColor}`}
                 >
-                  <p
-                    class={`modal-card-title has-text-centered has-text-${textColor}`}
+                  <div
+                    className={`block has-text-centered title has-text-${textColor}`}
                   >
-                    {showNotification.titol} ({showNotification.codi_assig})
-                  </p>
-                  <button
-                    class="delete"
-                    aria-label="close"
-                    onClick={() => setShowNotification(null)}
-                  ></button>
-                </header>
-                <section
-                  class={`modal-card-body has-background-${ui.theme} has-text-${textColor}`}
-                >
+                    {showNotification.titol}
+                  </div>
+                  <div
+                    className={`subtitle has-text-centered has-text-${textColor}`}
+                  >
+                    {showNotification.codi_assig}
+                  </div>
                   <div className={`block has-text-${textColor}`}>
                     {parse(showNotification.text)}
                   </div>
@@ -180,8 +172,12 @@ export default function Home() {
                       )
                     })}
                   </div>
-                </section>
+                </div>
               </div>
+              <div
+                className="modal-close"
+                onClick={() => setShowNotification(null)}
+              ></div>
             </div>
           )}
         </div>
