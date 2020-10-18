@@ -41,7 +41,15 @@ export const FooterButtons = ({ up, down }) => {
   )
 }
 
-export default function PageHero({ children, title, foot, nav, color, name }) {
+export default function PageHero({
+  children,
+  title,
+  foot,
+  nav,
+  color,
+  name,
+  footStyle,
+}) {
   const { ui, setUi } = useContext(UIContext)
 
   useEffect(() => {
@@ -65,11 +73,20 @@ export default function PageHero({ children, title, foot, nav, color, name }) {
           <h1 className="title has-text-centered mt-4">{title}</h1>
         </div>
       </div>
-      <div className="hero-body">
+      <div
+        className="hero-body"
+        onClick={() => setUi({ ...ui, navbarActive: false })}
+      >
         <div className="container">{children}</div>
       </div>
 
-      <div className="hero-foot">{foot}</div>
+      <div
+        className="hero-foot"
+        style={footStyle}
+        onClick={() => setUi({ ...ui, navbarActive: false })}
+      >
+        {foot}
+      </div>
     </Element>
   )
 }

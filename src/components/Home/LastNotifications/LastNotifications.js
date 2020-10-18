@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react"
 import { UIContext } from "../../../context/UIContext"
 import { useTranslation } from "react-i18next"
 import authContext from "../../../context/auth/authContext"
+import UpdateButton from "../../UpdateButton/UpdateButton"
 
 export default function LastNotifications({ setShowNotification }) {
   const { user, accessToken, getNotifications } = useContext(authContext)
@@ -36,19 +37,14 @@ export default function LastNotifications({ setShowNotification }) {
   return (
     <div className="column">
       <div className="title has-text-centered">
-        {t("Last notifications")}{" "}
-        <div
-          className={`button is-rounded is-${ui.theme} ${
-            loadingButton && "is-loading"
-          }`}
+        {t("Last notifications")}
+        <UpdateButton
           onClick={() => {
             updateLastNotifications()
             setLoadingButton(true)
           }}
-        >
-          <i className="las la-sync"></i>{" "}
-          <span className="is-hidden-mobile">{t("Update")}</span>
-        </div>
+          loading={loadingButton}
+        />
       </div>
 
       <div
